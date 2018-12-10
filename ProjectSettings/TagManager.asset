@@ -13,18 +13,18 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - p1Hand
+  - p2Hand
+  - p3Hand
+  - p4Hand
+  - p1Head
+  - p2Head
+  - p3Head
+  - p4Head
+  - MouthHole
+  - Table
+  - FoodItem
+  - MouthItem
   - 
   - 
   - 
