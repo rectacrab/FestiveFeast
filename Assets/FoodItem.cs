@@ -31,6 +31,7 @@ public class FoodItem : MonoBehaviour
     public void SetAsMouthItem (Transform newParent)
     {
         this.gameObject.layer = LayerMask.NameToLayer("MouthItem");
+        this.GetComponentInChildren<SpriteRenderer>().sortingOrder = 3;
         Collider2D selfCollider = this.GetComponent<Collider2D>();
         selfCollider.enabled = false;
         selfCollider.enabled = true;
@@ -42,6 +43,7 @@ public class FoodItem : MonoBehaviour
     public void SetAsFoodItem ()
     {
         this.gameObject.layer = LayerMask.NameToLayer("FoodItem");
+        this.GetComponentInChildren<SpriteRenderer>().sortingOrder = 6;
         Collider2D selfCollider = this.GetComponent<Collider2D>();
         selfCollider.enabled = false;
         selfCollider.enabled = true;

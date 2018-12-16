@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7340523735640150968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -0.034146104}
-  m_LocalScale: {x: 0.54, y: 0.01, z: 1}
+  m_LocalScale: {x: 0.108, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -119,9 +119,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95e52a25b47655488e89e6e525dec2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxOpenSize: 0.8
-  m_mouthSpeed: 0.2
-  m_mouthOpenCloseCrossover: 0.3
+  m_maxOpenSize: 1.5
+  m_topLipPosition: 0.169
+  m_botLipPosition: -0.611
+  m_horizontalScale: 0.6
+  m_mouthSpeed: 0.1
+  m_mouthOpenCloseCrossover: 2.1
+  m_lipTop: {fileID: 0}
+  m_lipBottom: {fileID: 0}
   m_MaxFoodInMouth: 5
   m_mouthContainer: {fileID: 0}
   m_contactFoodEjectionVelocity: 0

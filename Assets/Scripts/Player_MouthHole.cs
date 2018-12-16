@@ -8,7 +8,9 @@ public class Player_MouthHole : MonoBehaviour
     private bool m_mouthOpen = false;
     [SerializeField]
     private float m_maxOpenSize = 0.55f;
+    [SerializeField]
     private float m_topLipPosition;
+    [SerializeField]
     private float m_botLipPosition;
     [SerializeField]
     private float m_horizontalScale;
@@ -29,12 +31,12 @@ public class Player_MouthHole : MonoBehaviour
     private float m_contactFoodEjectionVelocity;
     [SerializeField]
     private int m_chewDamage = 1;
+    [SerializeField] private GameObject m_swallowPrefab;
+    [SerializeField] private GameObject m_swallowContainer;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake ()
     {
-        m_topLipPosition = m_lipTop.position.y;
-        m_botLipPosition = m_lipBottom.position.y;
         m_playerInfo = this.GetComponentInParent<PlayerInfo>();
     }
 
@@ -47,9 +49,8 @@ public class Player_MouthHole : MonoBehaviour
     void FixedUpdate ()
     {
         //open your god damn mouth.
-        m_lipTop.transform.position = new Vector2(m_lipTop.position.x, m_lipTop.position.y);
-
-        this.transform.localScale = new Vector2(m_horizontalScale, Mathf.Max(0.01f, Mathf.Lerp(this.transform.localScale.y, Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) * m_maxOpenSize, m_mouthSpeed)));
+        m_lipTop.position = new Vector2(this.transform.parent.transform.position.x, this.transform.position.y + Mathf.Lerp(this.transform.position.y, m_topLipPosition + Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) * m_maxOpenSize, m_mouthSpeed));
+        m_lipBottom.position = new Vector2(this.transform.parent.transform.position.x, m_botLipPosition - Mathf.Lerp(m_botLipPosition, Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) * m_maxOpenSize, m_mouthSpeed));
         SetMouthStatus();
     }
 
@@ -57,11 +58,11 @@ public class Player_MouthHole : MonoBehaviour
     //check whether mouth is open or closed.
     private void SetMouthStatus ()
     {
-        if (this.transform.localScale.y > m_mouthOpenCloseCrossover*m_maxOpenSize)
+        if (m_lipTop.position.y > m_mouthOpenCloseCrossover)
         {
             if (m_mouthOpen == false)
             {
-                
+                Debug.Log("Mouth now open");
             }
             m_mouthOpen = true;
         }
@@ -92,7 +93,10 @@ public class Player_MouthHole : MonoBehaviour
                     itam.transform.position = m_mouthContainer.transform.position;
                     
                 }
-                
+                else
+                {
+                    Debug.Log("CHEW YOUR FOOD!");
+                }
             }
             else
             {
@@ -121,14 +125,17 @@ public class Player_MouthHole : MonoBehaviour
         {
             bool isReady = m_mouthContainer.transform.GetChild(p).GetComponent<FoodItem>().ChewFood(m_chewDamage);
             Debug.Log("is ready to be swallowed: " + isReady);
-            if (isReady) { Destroy(m_mouthContainer.transform.GetChild(p).gameObject); }
-        }
+            if (isReady)
+            {
+                m_currentFoodInMouth -= m_mouthContainer.transform.GetChild(p).GetComponent<FoodItem>().GetFoodAmount();
+                Destroy(m_mouthContainer.transform.GetChild(p).gameObject);
+                //create swallow object.
+                GameObject swolObject = Instantiate(m_swallowPrefab);
+                swolObject.transform.position = this.transform.position;
+                swolObject.transform.SetParent(m_swallowContainer.transform);
+                swolObject.SetActive(true);
+            }
 
-        //kill it.
-        foreach (GameObject obj in destructionList)
-        {
-            destructionList.Remove(obj);
-            Destroy(obj);
         }
     }
 }
