@@ -33,11 +33,16 @@ public class Player_MouthHole : MonoBehaviour
     private int m_chewDamage = 1;
     [SerializeField] private GameObject m_swallowPrefab;
     [SerializeField] private GameObject m_swallowContainer;
+    [SerializeField] private AudioClip[] m_ChewingSounds;
+    private AudioSource m_audioSource;
+    private ParticleSystem m_partSys;
 
     // Start is called before the first frame update
     void Awake ()
     {
         m_playerInfo = this.GetComponentInParent<PlayerInfo>();
+        m_audioSource = this.GetComponentInParent<AudioSource>();
+        m_partSys = this.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -58,7 +63,7 @@ public class Player_MouthHole : MonoBehaviour
     //check whether mouth is open or closed.
     private void SetMouthStatus ()
     {
-        if (m_lipTop.position.y > m_mouthOpenCloseCrossover)
+        if (Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) > m_mouthOpenCloseCrossover)
         {
             if (m_mouthOpen == false)
             {
@@ -91,7 +96,8 @@ public class Player_MouthHole : MonoBehaviour
                     itam.SetAsMouthItem(m_mouthContainer.transform);
                     m_currentFoodInMouth += itam.GetFoodAmount();
                     itam.transform.position = m_mouthContainer.transform.position;
-                    
+                    itam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                    itam.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
                 }
                 else
                 {
@@ -113,14 +119,23 @@ public class Player_MouthHole : MonoBehaviour
             FoodItem foods = m_mouthContainer.transform.GetChild(p).GetComponent<FoodItem>();
             foods.SetAsFoodItem();
             foods.gameObject.transform.SetParent(null);
+            foods.gameObject.transform.localScale = new Vector3(1, 1, 1);
             foods.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(m_contactFoodEjectionVelocity * -1, m_contactFoodEjectionVelocity), m_contactFoodEjectionVelocity));
         }
+        m_currentFoodInMouth = 0f;
     }
 
     //method to start chewing the food.
     private void ChewFood ()
     {
         List<GameObject> destructionList = new List<GameObject>();
+        //play audio if food present.
+        if (m_mouthContainer.transform.childCount > 0)
+        {
+            m_audioSource.PlayOneShot(m_ChewingSounds[Random.Range(0, m_ChewingSounds.Length)]);
+            m_partSys.Play();
+        }
+        //trawl throuhg mouth items.
         for (int p = 0; p < m_mouthContainer.transform.childCount; p++)
         {
             bool isReady = m_mouthContainer.transform.GetChild(p).GetComponent<FoodItem>().ChewFood(m_chewDamage);
@@ -128,12 +143,16 @@ public class Player_MouthHole : MonoBehaviour
             if (isReady)
             {
                 m_currentFoodInMouth -= m_mouthContainer.transform.GetChild(p).GetComponent<FoodItem>().GetFoodAmount();
-                Destroy(m_mouthContainer.transform.GetChild(p).gameObject);
+                
                 //create swallow object.
                 GameObject swolObject = Instantiate(m_swallowPrefab);
                 swolObject.transform.position = this.transform.position;
                 swolObject.transform.SetParent(m_swallowContainer.transform);
                 swolObject.SetActive(true);
+                swolObject.GetComponent<player_ThroatObject>().setOriginalFoodItem(m_mouthContainer.transform.GetChild(p).gameObject.GetComponent<FoodItem>());
+
+                //destroy mouth version
+                Destroy(m_mouthContainer.transform.GetChild(p).gameObject);
             }
 
         }

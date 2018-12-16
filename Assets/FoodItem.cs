@@ -11,11 +11,13 @@ public class FoodItem : MonoBehaviour
     [SerializeField]
     private int m_health;
     private Rigidbody2D m_rb2d;
+    private Sprite m_foodSprite;
 
     // Start is called before the first frame update
     void Start()
     {
         m_rb2d = this.GetComponent<Rigidbody2D>();
+        m_foodSprite = GetComponentInChildren<SpriteRenderer>().sprite;
     }
 
     // Update is called once per frame
@@ -55,5 +57,14 @@ public class FoodItem : MonoBehaviour
     {
         this.m_health -= chewDamage;
         return m_health <= 0;
+    }
+
+    public int GetHealth ()
+    {
+        return m_health;
+    }
+    public Sprite GetSprite ()
+    {
+        return m_foodSprite;
     }
 }

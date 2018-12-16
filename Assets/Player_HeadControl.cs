@@ -9,6 +9,7 @@ public class Player_HeadControl : MonoBehaviour
     [SerializeField]
     private float m_headAcceleration;
     private Rigidbody2D m_rb2d;
+    private Player_MouthHole m_playerMouth;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,8 @@ public class Player_HeadControl : MonoBehaviour
         m_rb2d = this.GetComponent<Rigidbody2D>();
         m_xpos = this.transform.position.x;
         m_ypos = this.transform.position.y;
+        m_playerMouth = this.GetComponentInChildren<Player_MouthHole>();
+
     }
 
     // Update is called once per frame
@@ -35,5 +38,11 @@ public class Player_HeadControl : MonoBehaviour
     private void MoveTowardsHome ()
     {
         m_rb2d.MovePosition(Vector2.Lerp(this.transform.position, new Vector2(m_xpos, m_ypos), m_headAcceleration));
+    }
+
+    //punched in head.
+    private void OnCollisionEnter2D (Collision2D collider)
+    {
+        m_playerMouth.DropFoodItems();
     }
 }
