@@ -10,14 +10,19 @@ public class FoodItem : MonoBehaviour
     private float m_calories;
     [SerializeField]
     private int m_health;
+    private int m_originalHealth;
     private Rigidbody2D m_rb2d;
     private Sprite m_foodSprite;
+    private AudioSource m_audio;
+    [SerializeField] private AudioClip[] m_thudClips;
 
     // Start is called before the first frame update
     void Start()
     {
         m_rb2d = this.GetComponent<Rigidbody2D>();
         m_foodSprite = GetComponentInChildren<SpriteRenderer>().sprite;
+        m_originalHealth = m_health;
+        m_audio = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -29,6 +34,12 @@ public class FoodItem : MonoBehaviour
     //return food amount.
     public float GetFoodAmount ()
     { return m_foodQuantity; }
+
+    //play collision noises.
+    public void OnCollisionEnter2D (Collision2D collisionObject)
+    {
+        m_audio.PlayOneShot(m_thudClips[Random.Range(0, m_thudClips.Length)]);
+    }
 
     public void SetAsMouthItem (Transform newParent)
     {
@@ -63,6 +74,10 @@ public class FoodItem : MonoBehaviour
     public int GetHealth ()
     {
         return m_health;
+    }
+    public int GetMaxHealth ()
+    {
+        return m_originalHealth;
     }
     public Sprite GetSprite ()
     {

@@ -37,6 +37,7 @@ public class Player_MouthHole : MonoBehaviour
     private AudioSource m_audioSource;
     private ParticleSystem m_partSys;
     private bool isVomiting;
+    [SerializeField] private FoodStorage m_foodStorage;
 
     // Start is called before the first frame update
     void Awake ()
@@ -161,8 +162,9 @@ public class Player_MouthHole : MonoBehaviour
                 swolObject.SetActive(true);
                 swolObject.GetComponent<player_ThroatObject>().setOriginalFoodItem(m_mouthContainer.transform.GetChild(p).gameObject.GetComponent<FoodItem>());
 
-                //destroy mouth version
-                Destroy(m_mouthContainer.transform.GetChild(p).gameObject);
+                //move food object off to space.
+                GameObject targetObject = m_mouthContainer.transform.GetChild(p).gameObject;
+                m_foodStorage.StoreChewedFood(targetObject);
             }
 
         }
@@ -174,6 +176,7 @@ public class Player_MouthHole : MonoBehaviour
         isVomiting = setVom;
         if (isVomiting)
         {
+            DropFoodItems();
             m_currentFoodInMouth = m_MaxFoodInMouth;
         }
         else

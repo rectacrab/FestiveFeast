@@ -72,6 +72,10 @@ public class PlayerInfo : MonoBehaviour
     {
         return mControl_LS_Horizontal + m_playerIndex;
     }
+    public string Get_PlayerGo()
+    {
+        return mControl_Go + m_playerIndex;
+    }
 
     public Color32 GetBaseColour ()
     {

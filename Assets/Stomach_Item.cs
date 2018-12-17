@@ -27,7 +27,7 @@ public class Stomach_Item : MonoBehaviour
         SetFoodItem(original);
         Debug.Log("Original: " + original);
         m_originalItem = original;
-        m_digestionTime = original.GetHealth();
+        m_digestionTime = original.GetMaxHealth();
         this.GetComponentInChildren<SpriteRenderer>().sprite = m_originalItem.GetSprite();
     }
 
