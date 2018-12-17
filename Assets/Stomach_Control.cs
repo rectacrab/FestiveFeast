@@ -10,11 +10,13 @@ public class Stomach_Control : MonoBehaviour
     [SerializeField] private GameObject m_stomachItemPrefab;
     [SerializeField] private AudioClip[] m_vomitingSounds;
     private AudioSource m_audioSource;
+    private Player_HeadControl m_playerHead;
 
     // Start is called before the first frame update
     void Start()
     {
         m_audioSource = this.GetComponentInParent<AudioSource>();
+        m_playerHead = GetComponentInParent<Player_HeadControl>();
     }
 
     // Update is called once per frame
@@ -53,5 +55,6 @@ public class Stomach_Control : MonoBehaviour
     private void PlayVom ()
     {
         m_audioSource.PlayOneShot(m_vomitingSounds[Random.Range(0, m_vomitingSounds.Length)]);
+        m_playerHead.StartVomiting();
     }
 }

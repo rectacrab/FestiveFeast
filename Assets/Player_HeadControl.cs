@@ -10,6 +10,7 @@ public class Player_HeadControl : MonoBehaviour
     private float m_headAcceleration;
     private Rigidbody2D m_rb2d;
     private Player_MouthHole m_playerMouth;
+    private Animator m_headAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +19,7 @@ public class Player_HeadControl : MonoBehaviour
         m_xpos = this.transform.position.x;
         m_ypos = this.transform.position.y;
         m_playerMouth = this.GetComponentInChildren<Player_MouthHole>();
-
+        m_headAnimator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -44,5 +45,17 @@ public class Player_HeadControl : MonoBehaviour
     private void OnCollisionEnter2D (Collision2D collider)
     {
         m_playerMouth.DropFoodItems();
+    }
+
+    public void EndVomiting ()
+    {
+
+    }
+
+    //start vomiting.
+    public void StartVomiting()
+    {
+        m_headAnimator.SetBool("isVomiting", true);
+        m_playerMouth.SetVomiting(true);
     }
 }

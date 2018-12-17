@@ -36,6 +36,7 @@ public class Player_MouthHole : MonoBehaviour
     [SerializeField] private AudioClip[] m_ChewingSounds;
     private AudioSource m_audioSource;
     private ParticleSystem m_partSys;
+    private bool isVomiting;
 
     // Start is called before the first frame update
     void Awake ()
@@ -43,6 +44,7 @@ public class Player_MouthHole : MonoBehaviour
         m_playerInfo = this.GetComponentInParent<PlayerInfo>();
         m_audioSource = this.GetComponentInParent<AudioSource>();
         m_partSys = this.GetComponent<ParticleSystem>();
+        isVomiting = false;
     }
 
     // Update is called once per frame
@@ -53,10 +55,18 @@ public class Player_MouthHole : MonoBehaviour
 
     void FixedUpdate ()
     {
-        //open your god damn mouth.
-        m_lipTop.position = new Vector2(this.transform.parent.transform.position.x, this.transform.position.y + Mathf.Lerp(this.transform.position.y, m_topLipPosition + Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) * m_maxOpenSize, m_mouthSpeed));
-        m_lipBottom.position = new Vector2(this.transform.parent.transform.position.x, m_botLipPosition - Mathf.Lerp(m_botLipPosition, Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) * m_maxOpenSize, m_mouthSpeed));
-        SetMouthStatus();
+        if (!isVomiting)
+        {
+            //open your god damn mouth.
+            m_lipTop.position = new Vector2(this.transform.parent.transform.position.x, this.transform.position.y + Mathf.Lerp(this.transform.position.y, m_topLipPosition + Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) * m_maxOpenSize, m_mouthSpeed));
+            m_lipBottom.position = new Vector2(this.transform.parent.transform.position.x, m_botLipPosition - Mathf.Lerp(m_botLipPosition, Mathf.Abs(Input.GetAxis(m_playerInfo.Get_Trigger())) * m_maxOpenSize, m_mouthSpeed));
+            SetMouthStatus();
+        }
+        else
+        {
+            m_lipTop.position = new Vector2(this.transform.parent.transform.position.x, m_topLipPosition + m_maxOpenSize);
+            m_lipBottom.position = new Vector2(this.transform.parent.transform.position.x, m_botLipPosition - m_maxOpenSize);
+        }
     }
 
 
@@ -156,5 +166,20 @@ public class Player_MouthHole : MonoBehaviour
             }
 
         }
+    }
+
+    //start/end vomitng.
+    public void SetVomiting (bool setVom)
+    {
+        isVomiting = setVom;
+        if (isVomiting)
+        {
+            m_currentFoodInMouth = m_MaxFoodInMouth;
+        }
+        else
+        {
+            m_currentFoodInMouth = 0;
+        }
+        
     }
 }
