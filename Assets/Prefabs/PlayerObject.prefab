@@ -304,6 +304,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6d930408bd9cae540a7ef942d2b5534f, type: 3}
   - {fileID: 8300000, guid: 45e8d14784e2a32418f2725978ba95df, type: 3}
   - {fileID: 8300000, guid: f3c0653364cb4eb4295f4e2e596a94aa, type: 3}
+  m_headObject: {fileID: 3503780786219759631}
+  m_vomitPrefab: {fileID: 3002215484754338910, guid: afef476577109434b80a6cdb606d011e,
+    type: 3}
 --- !u!1 &2723886775837716490
 GameObject:
   m_ObjectHideFlags: 0
@@ -7691,6 +7694,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3503780786410333633}
     m_Modifications:
+    - target: {fileID: 1032867304224659573, guid: 94b1653f128eef54baf22829acc63c95,
+        type: 3}
+      propertyPath: m_Name
+      value: Player_Head
+      objectReference: {fileID: 0}
     - target: {fileID: 3732125646384521203, guid: 94b1653f128eef54baf22829acc63c95,
         type: 3}
       propertyPath: m_Color.r
@@ -7765,11 +7773,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1032867304224659573, guid: 94b1653f128eef54baf22829acc63c95,
-        type: 3}
-      propertyPath: m_Name
-      value: Player_Head
       objectReference: {fileID: 0}
     - target: {fileID: 8766885070369565046, guid: 94b1653f128eef54baf22829acc63c95,
         type: 3}

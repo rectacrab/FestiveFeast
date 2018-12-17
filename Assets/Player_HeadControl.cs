@@ -49,7 +49,8 @@ public class Player_HeadControl : MonoBehaviour
 
     public void EndVomiting ()
     {
-
+        m_headAnimator.SetBool("isVomiting", false);
+        m_playerMouth.SetVomiting(false);
     }
 
     //start vomiting.

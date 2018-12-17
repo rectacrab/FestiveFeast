@@ -5,18 +5,22 @@ using UnityEngine;
 public class Stomach_Control : MonoBehaviour
 {
     [SerializeField] private Collider2D m_AcidCollider;
-    private List<Stomach_Item> stomachObjects = new List<Stomach_Item>();
+    private List<Stomach_Item> m_stomachObjects = new List<Stomach_Item>();
     [SerializeField] private GameObject m_StartingPoint;
     [SerializeField] private GameObject m_stomachItemPrefab;
     [SerializeField] private AudioClip[] m_vomitingSounds;
+    [SerializeField] private GameObject m_headObject;
+    private GameObject m_mouthLocation;
     private AudioSource m_audioSource;
     private Player_HeadControl m_playerHead;
+    [SerializeField] private GameObject m_vomitPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         m_audioSource = this.GetComponentInParent<AudioSource>();
-        m_playerHead = GetComponentInParent<Player_HeadControl>();
+        m_playerHead = m_headObject.GetComponent<Player_HeadControl>();
+        m_mouthLocation = m_headObject.transform.GetChild(1).gameObject;
     }
 
     // Update is called once per frame
@@ -50,11 +54,37 @@ public class Stomach_Control : MonoBehaviour
         newObject.transform.position = m_StartingPoint.transform.position;
         newObject.transform.SetParent(m_StartingPoint.transform);
         newObject.GetComponent<Stomach_Item>().DropStomachFood(baseItem);
+        m_stomachObjects.Add(newObject.GetComponent<Stomach_Item>());
     }
 
     private void PlayVom ()
     {
         m_audioSource.PlayOneShot(m_vomitingSounds[Random.Range(0, m_vomitingSounds.Length)]);
         m_playerHead.StartVomiting();
+        VomitFood();
+    }
+
+    public void DigestFood (Stomach_Item targetItem)
+    {
+
+    }
+
+    //method to actually re-create food items on the table.
+    public void VomitFood ()
+    {
+        Debug.Log("Vomit Food triggered, recreating objects");
+        foreach (Stomach_Item item in m_stomachObjects)
+        {
+            GameObject newObj = Instantiate(m_vomitPrefab);
+            newObj.transform.position = m_mouthLocation.transform.position;
+            FoodItem foodObj = newObj.GetComponent<FoodItem>();
+            foodObj.CopyFoodItemProperties(item.GetFoodItem());
+            foodObj.SetAsFoodItem();
+            newObj.SetActive(true);
+
+            //impulse in direction.
+        }
+
+        m_stomachObjects.Clear();
     }
 }

@@ -7,6 +7,7 @@ public class Stomach_Item : MonoBehaviour
     private FoodItem m_originalItem;
     private float m_digestionTime;
     private float m_currentDigestion;
+    private FoodItem m_originalFoodItem;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class Stomach_Item : MonoBehaviour
     //drop this into the stomach area.
     public void DropStomachFood (FoodItem original)
     {
+        SetFoodItem(original);
         Debug.Log("Original: " + original);
         m_originalItem = original;
         m_digestionTime = original.GetHealth();
@@ -41,4 +43,14 @@ public class Stomach_Item : MonoBehaviour
             return false;  
         }
     }
+
+    public void SetFoodItem (FoodItem original)
+    {
+        this.m_originalFoodItem = original;
+    }
+    public FoodItem GetFoodItem ()
+    {
+        return m_originalFoodItem;
+    }
 }
+

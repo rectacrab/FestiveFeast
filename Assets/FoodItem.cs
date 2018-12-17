@@ -50,6 +50,7 @@ public class FoodItem : MonoBehaviour
         selfCollider.enabled = false;
         selfCollider.enabled = true;
         this.transform.SetParent(null);
+        m_rb2d = this.gameObject.GetComponent<Rigidbody2D>();
         m_rb2d.gravityScale = 1f;
     }
     //chew your food.
@@ -66,5 +67,18 @@ public class FoodItem : MonoBehaviour
     public Sprite GetSprite ()
     {
         return m_foodSprite;
+    }
+    public float GetCalories ()
+    {
+        return m_calories;
+    }
+
+    //copy in the properties of another food item. This is hacky AF.
+    public void CopyFoodItemProperties (FoodItem existingItem)
+    {
+        this.m_foodQuantity = existingItem.GetFoodAmount();
+        this.m_health = existingItem.GetHealth();
+        this.m_foodSprite = existingItem.GetSprite();
+        this.m_calories = existingItem.GetCalories();
     }
 }
