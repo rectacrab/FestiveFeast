@@ -6,10 +6,13 @@ public class FoodStorage : MonoBehaviour
 {
     private List<GameObject> m_swallowedFood = new List<GameObject>();
     private List<GameObject> m_digestedFood = new List<GameObject>();
+    public float m_totalCalories;
+    public int m_playerIndex; 
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_playerIndex = this.GetComponentInParent<PlayerInfo>().GetPlayerIndex();
+        m_totalCalories = 0f;
     }
 
     // Update is called once per frame
@@ -50,12 +53,13 @@ public class FoodStorage : MonoBehaviour
     //get the total calories.
     public float GetTotalCalories ()
     {
-        float totalCals = 0f;
+        float cals = 0f;
         foreach (GameObject foodObj in m_digestedFood)
         {
-            totalCals += foodObj.GetComponent<FoodItem>().GetCalories();
+            cals += foodObj.GetComponent<FoodItem>().GetCalories();
         }
-        Debug.Log("Total Calories is: " + totalCals);
-        return totalCals;
+        Debug.Log("Total Calories is: " + cals);
+        m_totalCalories = cals;
+        return m_totalCalories;
     }
 }

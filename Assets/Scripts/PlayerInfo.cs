@@ -81,4 +81,9 @@ public class PlayerInfo : MonoBehaviour
     {
         return m_playerColourBase;
     }
+
+    public int GetPlayerIndex ()
+    {
+        return m_playerIndex;
+    }
 }
