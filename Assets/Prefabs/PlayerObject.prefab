@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ccd480536826f48b18ec7be2089608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FoodMeltRate: 0.1
+  m_FoodMeltRate: 0.01
   m_stomachControl: {fileID: 9108395047658327556}
 --- !u!1 &1521900233330327252
 GameObject:
@@ -2008,6 +2008,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e6dffb07032dd4290ad72d891a15b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_totalCalories: 0
+  m_playerIndex: 0
 --- !u!1 &6349626937108860089
 GameObject:
   m_ObjectHideFlags: 0
@@ -3226,6 +3228,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3503780786410333633}
     m_Modifications:
+    - target: {fileID: 1032867304224659573, guid: 94b1653f128eef54baf22829acc63c95,
+        type: 3}
+      propertyPath: m_Name
+      value: Player_Head
+      objectReference: {fileID: 0}
     - target: {fileID: 1032867304224659572, guid: 94b1653f128eef54baf22829acc63c95,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3281,21 +3288,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1032867304224659573, guid: 94b1653f128eef54baf22829acc63c95,
-        type: 3}
-      propertyPath: m_Name
-      value: Player_Head
-      objectReference: {fileID: 0}
-    - target: {fileID: 1032867304089660890, guid: 94b1653f128eef54baf22829acc63c95,
-        type: 3}
-      propertyPath: m_swallowContainer
-      value: 
-      objectReference: {fileID: 3503780786467206452}
-    - target: {fileID: 1032867304089660890, guid: 94b1653f128eef54baf22829acc63c95,
-        type: 3}
-      propertyPath: m_foodStorage
-      value: 
-      objectReference: {fileID: 227403567135622038}
     - target: {fileID: 1032867304224659569, guid: 94b1653f128eef54baf22829acc63c95,
         type: 3}
       propertyPath: m_punchClips.Array.size
@@ -3341,6 +3333,16 @@ PrefabInstance:
       propertyPath: m_punchClips.Array.data[7]
       value: 
       objectReference: {fileID: 8300000, guid: 6f414ccfa8a3e924d9ccf9f7d21a4768, type: 3}
+    - target: {fileID: 1032867304089660890, guid: 94b1653f128eef54baf22829acc63c95,
+        type: 3}
+      propertyPath: m_swallowContainer
+      value: 
+      objectReference: {fileID: 3503780786467206452}
+    - target: {fileID: 1032867304089660890, guid: 94b1653f128eef54baf22829acc63c95,
+        type: 3}
+      propertyPath: m_foodStorage
+      value: 
+      objectReference: {fileID: 227403567135622038}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94b1653f128eef54baf22829acc63c95, type: 3}
 --- !u!212 &3503780786219759625 stripped

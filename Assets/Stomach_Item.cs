@@ -12,7 +12,7 @@ public class Stomach_Item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_currentDigestion = 0f;
     }
 
     // Update is called once per frame
@@ -24,6 +24,7 @@ public class Stomach_Item : MonoBehaviour
     //drop this into the stomach area.
     public void DropStomachFood (FoodItem original)
     {
+        m_currentDigestion = 0f;
         SetFoodItem(original);
         Debug.Log("Original: " + original);
         m_originalItem = original;

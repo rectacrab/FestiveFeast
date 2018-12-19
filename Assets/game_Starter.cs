@@ -23,7 +23,7 @@ public class game_Starter : MonoBehaviour
         if (!m_gameStart)
         {
             bool allready = true;
-            for (int p = 0; p < m_playerOptIns.Length; p++)
+            for (int p = 0; p <= 1; p++)
             {
                 if (!m_playerOptIns[p].CheckIfJoined())
                 {

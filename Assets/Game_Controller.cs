@@ -18,8 +18,7 @@ public class Game_Controller : MonoBehaviour
     [SerializeField] private int m_servingRounds = 3;
     private int m_currentRound = 0;
     [SerializeField] private GameObject[] m_foodRounds;
-    [SerializeField] private GameObject[] m_FoodSpawningPoints;
-    [SerializeField] private GameObject m_ViewBlocker;
+    [SerializeField] private View_Blocker[] m_ViewBlockers;
     [SerializeField] private FoodWipe m_foodWipe;
     [SerializeField] private Camera_Positioner m_camPos;
     [SerializeField] private PoopMaker[] m_poopMakers;
@@ -50,6 +49,7 @@ public class Game_Controller : MonoBehaviour
         m_topCanvas = m_gameTimerDisplay.GetComponentInParent<CanvasGroup>();
         m_audioSource = this.GetComponent<AudioSource>();
         m_checkForRestart = false;
+        Invoke("DeliverFood", 1f);
     }
 
     // Update is called once per frame
@@ -111,6 +111,7 @@ public class Game_Controller : MonoBehaviour
         else
         {
             m_gameTimeLeft = m_gameLength;
+            Invoke("DeliverFood", 1f);
         }
     }
 
@@ -131,13 +132,21 @@ public class Game_Controller : MonoBehaviour
             m_rankings.Add(m_playerFoodStorage[p]);
         }
 
-        m_rankings.OrderByDescending(x => x.m_totalCalories);
+        m_rankings = m_playerFoodStorage.OrderByDescending(x => x.GetTotalCalories()).ToList();
+        for (int p = 0; p < m_rankings.Count; p++)
+        {
+            Debug.Log("place " + p + " is: " + m_rankings[p].m_playerIndex +" with calorie count of: " + m_rankings[p].GetTotalCalories());
+        }
+
         Debug.Log("rankings count: " + m_rankings.Count);
 
         for (int p = 0; p < m_poopMakers.Length; p++)
         {
             Debug.Log("Attempting to reach: " + m_rankings[p].m_playerIndex);
-            m_poopMakers[m_rankings[p].m_playerIndex-1].CreatePoo(m_rankings[p].GetTotalCalories(), p, m_rankings[p].m_playerIndex);
+            Debug.Log("placing assigned to " + m_poopMakers[m_rankings[p].m_playerIndex-1].name);
+            Debug.Log("is " + p);
+            Debug.Log("Rankings player indexi s: " + m_rankings[p].m_playerIndex);
+            m_poopMakers[m_rankings[p].m_playerIndex-1].CreatePoo(m_rankings[p].GetTotalCalories(), p+1, m_rankings[p].m_playerIndex);
         }
 
         //play drum roll.
@@ -169,5 +178,21 @@ public class Game_Controller : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(1);
+    }
+
+    //make food happen
+    public void TriggerFoodSpawn (Vector2 location)
+    {
+        GameObject foodPlatter = Instantiate(m_foodRounds[m_currentRound], new Vector3(location.x, location.y, 0.75f), new Quaternion(0,0,0,0));
+        foodPlatter.SetActive(true);
+    }
+
+    //trigger food appearing.
+    public void DeliverFood ()
+    {
+        foreach(View_Blocker blk in m_ViewBlockers)
+        {
+            blk.goToFoodLocation();
+        }
     }
 }

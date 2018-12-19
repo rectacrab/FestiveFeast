@@ -38,7 +38,10 @@ public class FoodItem : MonoBehaviour
     //play collision noises.
     public void OnCollisionEnter2D (Collision2D collisionObject)
     {
-        m_audio.PlayOneShot(m_thudClips[Random.Range(0, m_thudClips.Length)]);
+        if (m_audio != null)
+        {
+            m_audio.PlayOneShot(m_thudClips[Random.Range(0, m_thudClips.Length - 1)]);
+        }
     }
 
     public void SetAsMouthItem (Transform newParent)

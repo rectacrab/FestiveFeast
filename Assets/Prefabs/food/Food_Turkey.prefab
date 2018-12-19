@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_foodQuantity: 5
   m_calories: 1500
-  m_health: 1
+  m_health: 10
   m_thudClips:
   - {fileID: 8300000, guid: e851e5284a5757e4eba969bc6a968cb4, type: 3}
   - {fileID: 8300000, guid: 416af0f4fd1340b4cbfa695c3d2a09a1, type: 3}

@@ -66,7 +66,7 @@ public class Stomach_Control : MonoBehaviour
     public void CreateStomachItem(FoodItem baseItem)
     {
         GameObject newObject = Instantiate(m_stomachItemPrefab);
-        newObject.transform.localScale = new Vector2(0.8f, 0.8f);
+        newObject.transform.localScale = new Vector2(baseItem.transform.lossyScale.x, baseItem.transform.lossyScale.y);
         newObject.transform.position = m_StartingPoint.transform.position;
         newObject.transform.SetParent(m_StartingPoint.transform);
         newObject.GetComponent<Stomach_Item>().DropStomachFood(baseItem);
@@ -113,7 +113,9 @@ public class Stomach_Control : MonoBehaviour
         foreach (GameObject obj in m_ReadyDigestObjects)
         {
             m_stomachObjects.Remove(m_stomachObjects.Find(target => target.gameObject == obj));
+            Debug.Log("Obj is: " + obj);
             m_foodStorage.StoreDigestedFood(obj.GetComponent<Stomach_Item>().GetFoodItem());
+            
             Destroy(obj);
         }
         m_ReadyDigestObjects.Clear();
@@ -143,7 +145,8 @@ public class Stomach_Control : MonoBehaviour
             //kill stomach item
             Destroy(item.gameObject);
         }
-
+        //clear indexes of food.
+        m_ReadyDigestObjects.Clear();
         m_stomachObjects.Clear();
     }
 }

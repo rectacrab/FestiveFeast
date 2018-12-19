@@ -48,14 +48,15 @@ public class PoopMaker : MonoBehaviour
     public void CreatePoo (float calories, int placing, int playerIndex)
     {
         m_playerIndex = playerIndex;
-        m_placing = placing; m_calories = calories;
+        m_placing = placing;
+        m_calories = calories;
         m_pooSize = new Vector3(Mathf.Max(1, calories / 1000f), Mathf.Max(1, calories / 1000f));
         Invoke("DelayedPoo", 4.3f - m_placing);
     }
     //make the poos.
     private void DelayedPoo ()
     {
-        m_audioSource.PlayOneShot(m_fartClips[m_placing]);
+        m_audioSource.PlayOneShot(m_fartClips[m_placing-1]);
         //biggest
         GameObject newObj = Instantiate(m_majorPoo);
         newObj.SetActive(true);
@@ -76,6 +77,7 @@ public class PoopMaker : MonoBehaviour
 
         if (m_placing == 1)
         {
+            Debug.Log("Placing is: " + m_placing);
             Invoke("DisplayWinner", 3f);
         }
     }
@@ -103,6 +105,7 @@ public class PoopMaker : MonoBehaviour
     //DISPLAY winner text.
     private void DisplayWinner ()
     {
+        Debug.Log("Gameobject " + this.gameObject.name + " is winning? " + m_playerIndex);
         m_topCanvas.alpha = 1;
         m_topBarText.text = "Player " + m_playerIndex + " has made the most poo!";
         //start 3s count down to returning to player view.
